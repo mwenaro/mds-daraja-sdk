@@ -67,9 +67,9 @@ export class SafaricomDarajaApi {
    * Register C2B URLs
    */
   async registerUrls(
-    shortCode: string,
     confirmationUrl: string,
-    validationUrl: string
+    validationUrl: string,
+    shortCode: string = this.businessShortCode
   ): Promise<any> {
     const accessToken = await this.getAccessToken();
     const url = `${this.baseUrl}/mpesa/c2b/v1/registerurl`;
@@ -171,7 +171,7 @@ export class SafaricomDarajaApi {
       PartyA: formatedPhone,
       PartyB: this.businessShortCode,
       PhoneNumber: formatedPhone,
-      CallBackURL: "https://mydomain.com/path",
+      CallBackURL: process.env.DARAJA_STK_CALLBACK_URL!,
       AccountReference: "BuySasa online shop",
       TransactionDesc: "Payment",
     };
@@ -289,6 +289,92 @@ export class SafaricomDarajaApi {
     });
 
     return response.data;
+  }
+
+  //============================================
+
+  /**
+   * Handles the final confirmation of the transaction after processing.
+   * @param confirmationData - The confirmation request data from M-Pesa
+   * @returns An object containing the status of the transaction
+   */
+  public handleTransactionConfirmation(confirmationData: any): {
+    success: boolean;
+    message: string;
+    data?: any;
+  } {
+    const { ResultCode, TransAmount, MpesaReceiptNumber, BillRefNumber } =
+      confirmationData;
+
+    // Check if the transaction was successful
+    if (ResultCode === 0) {
+      // Transaction successful, process the data
+      this.recordTransaction({
+        amount: TransAmount,
+        receiptNumber: MpesaReceiptNumber,
+        accountNumber: BillRefNumber,
+      });
+
+      return {
+        success: true,
+        message: "Transaction confirmed successfully",
+        data: {
+          amount: TransAmount,
+          receiptNumber: MpesaReceiptNumber,
+        },
+      };
+    } else {
+      // Handle failed transaction
+      return {
+        success: false,
+        message: "Transaction failed",
+      };
+    }
+  }
+
+  private recordTransaction(transactionData: any) {
+    // Implement logic to save the transaction to your database or system
+  }
+
+  /**=======================================================================
+   * Handles validation of incoming transactions
+   * @param validationData - The validation request data from M-Pesa
+   * @returns A response indicating whether to accept or reject the transaction
+   */
+  public handleTransactionValidation(validationData: any): {
+    success: boolean;
+    message: string;
+  } {
+    const { TransactionType, TransAmount, BillRefNumber } = validationData;
+
+    // Custom logic to check the validity of the transaction
+    if (TransactionType !== "PayBill" || TransAmount <= 0) {
+      return {
+        success: false,
+        message: "Invalid transaction type or amount",
+      };
+    }
+
+    // Check if BillRefNumber (account number) exists in your system
+    const accountExists = this.checkAccountExists(BillRefNumber);
+
+    if (!accountExists) {
+      return {
+        success: false,
+        message: "Account does not exist",
+      };
+    }
+
+    // Validation passed
+    return {
+      success: true,
+      message: "Transaction accepted",
+    };
+  }
+
+  private checkAccountExists(accountNumber: string): boolean {
+    // Implement your logic to check if the account exists in your system
+    return true; // Return true if valid, false if not
   }
 
   /**
