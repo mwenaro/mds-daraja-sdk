@@ -16,14 +16,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Specify your Node.js version
-          cache: 'npm'
+          node-version: "20" # Specify your Node.js version
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build the project
         run: npm run build
+
+      - name: Bump version and commit
+        run: |
+          npm version patch # You can use `patch`, `minor`, or `major` depending on your needs
+          git push --follow-tags
 
       - name: Publish to npm
         run: npm publish
