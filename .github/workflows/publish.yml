@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: '20'  # Updated to Node.js v20
           cache: 'npm'
+          registry_url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm install
@@ -26,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Publish to npm
-        run: npm publish
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
