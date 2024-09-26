@@ -171,8 +171,9 @@ export class SafaricomDarajaApi {
       PartyA: formatedPhone,
       PartyB: this.businessShortCode,
       PhoneNumber: formatedPhone,
-      CallBackURL: process.env.DARAJA_API_CALLBACK_URL ?? 'https://example.com/callback',
-      AccountReference: process.env.DARAJA_API_APP_NAME ?? "Test Payment" ,
+      CallBackURL:
+        process.env.DARAJA_API_CALLBACK_URL || "https://example.com/callback",
+      AccountReference: process.env.DARAJA_API_APP_NAME || "Test Payment",
       TransactionDesc: "Payment",
     };
 
@@ -260,7 +261,6 @@ export class SafaricomDarajaApi {
   async b2cPayment(
     shortCode: string,
     password: string,
-    timestamp: string,
     amount: number,
     partyA: string,
     partyB: string
