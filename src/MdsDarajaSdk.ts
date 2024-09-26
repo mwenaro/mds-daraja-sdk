@@ -52,7 +52,7 @@ export class MdsDarajaSdk {
       PartyB: businessShortCode,
       PhoneNumber: phoneNumber,
       CallBackURL: callbackUrl,
-      AccountReference: "TestPayment",
+      AccountReference: process.env.DARAJA_API_APP_NAME ?? "Test Payment",
       TransactionDesc: "TestPayment",
     };
 

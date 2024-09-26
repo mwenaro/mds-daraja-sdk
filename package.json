@@ -1,8 +1,16 @@
 {
   "name": "mds-daraja-sdk",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://github.com/mwenaro/mds-daraja-sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mwenaro/mds-daraja-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mwenaro/mds-daraja-sdk/issues"
+  },
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build"
@@ -18,8 +26,22 @@
     "@types/node": "^22.x.x",
     "typescript": "^4.x.x"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mpesa",
+    "daraja",
+    "sdk",
+    "mpesa-api",
+    "payments",
+    "mobile-money",
+    "mpesa-integration",
+    "safaricom",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Mwero Abdalla <mweroabdalla@gmail.com>",
   "license": "ISC",
-  "description": ""
+  "description": "A simple SDK for integrating with Safaricom's Daraja API for M-Pesa payments.",
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }

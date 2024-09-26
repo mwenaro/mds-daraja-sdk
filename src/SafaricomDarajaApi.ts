@@ -172,7 +172,7 @@ export class SafaricomDarajaApi {
       PartyB: this.businessShortCode,
       PhoneNumber: formatedPhone,
       CallBackURL: process.env.DARAJA_STK_CALLBACK_URL!,
-      AccountReference: "BuySasa online shop",
+      AccountReference: process.env.DARAJA_API_APP_NAME ?? "Test Payment" ,
       TransactionDesc: "Payment",
     };
 
