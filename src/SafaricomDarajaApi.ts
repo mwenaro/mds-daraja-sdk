@@ -171,7 +171,7 @@ export class SafaricomDarajaApi {
       PartyA: formatedPhone,
       PartyB: this.businessShortCode,
       PhoneNumber: formatedPhone,
-      CallBackURL: process.env.DARAJA_STK_CALLBACK_URL!,
+      CallBackURL: process.env.DARAJA_API_CALLBACK_URL ?? 'https://example.com/callback',
       AccountReference: process.env.DARAJA_API_APP_NAME ?? "Test Payment" ,
       TransactionDesc: "Payment",
     };
