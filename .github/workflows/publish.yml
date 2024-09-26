@@ -1,35 +1,35 @@
-name: Publish Package to npm
+name: Publish to npm
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch: # allows manual triggering of the workflow if needed
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # Updated to Node.js v20
-          cache: 'npm'
-          registry_url: 'https://registry.npmjs.org'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org/"
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Build project
         run: npm run build
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # Use the token from GitHub secrets
 
       # Add this step to print npm debug log if the publish step fails
       - name: Show npm debug log
