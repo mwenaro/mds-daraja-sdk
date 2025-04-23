@@ -146,7 +146,7 @@ export class SafaricomDarajaApi {
     return response.data;
   }
 
-  async intiateC2bStkPush(
+  async initiateC2bStkPush(
     phone: string,
     amount: number,
     callbackUrl: string = process.env.DARAJA_API_CALLBACK_URL!
@@ -331,8 +331,14 @@ export class SafaricomDarajaApi {
     }
   }
 
-  private recordTransaction(transactionData: any) {
+  private async recordTransaction<T>(
+    transactionData: T,
+    cb?: (data: T) => void
+  ) {
     // Implement logic to save the transaction to your database or system
+    if (cb) {
+      await cb(transactionData);
+    }
   }
 
   /**=======================================================================
