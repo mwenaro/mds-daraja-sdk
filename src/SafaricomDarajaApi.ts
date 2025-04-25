@@ -149,6 +149,8 @@ export class SafaricomDarajaApi {
   async initiateC2bStkPush(
     phone: string,
     amount: number,
+    accountReference?: string,
+    transactionDesc?: string,
     callbackUrl: string = process.env.DARAJA_API_CALLBACK_URL!
   ): Promise<StkPushResponse> {
     const accessToken = await this.getAccessToken();
@@ -172,8 +174,9 @@ export class SafaricomDarajaApi {
       PartyB: this.businessShortCode,
       PhoneNumber: formatedPhone,
       CallBackURL: callbackUrl || "https://example.com/callback",
-      AccountReference: process.env.DARAJA_API_APP_NAME || "Test Payment",
-      TransactionDesc: "Payment",
+      AccountReference:
+        accountReference || process.env.DARAJA_API_APP_NAME || "Test Payment",
+      TransactionDesc: transactionDesc || "Payment",
     };
 
     const response: AxiosResponse<StkPushResponse> = await axios.post(
