@@ -1,2 +1,2 @@
-export {MdsDarajaSdk as MdsDarajaSdk} from "./MdsDarajaSdk"
-export * from "./SafaricomDarajaApi"
+export * from "./SafaricomDarajaApi";
+export { MdsDarajaSdk as default } from "./MdsDarajaSdk";

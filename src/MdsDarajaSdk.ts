@@ -1,5 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
+/**
+ * @deprecated Use SafaricomDarajaApi instead. This class will be removed in a future release.
+ */
 export class MdsDarajaSdk {
   private consumerKey: string;
   private consumerSecret: string;
